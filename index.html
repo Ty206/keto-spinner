@@ -5,22 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keto Spinner — What am I eating?</title>
 <style>
-  body { margin:0; font-family: system-ui, Arial, sans-serif; background:#101418; color:#f2f2f2; display:flex; min-height:100vh; align-items:center; justify-content:center; background-size:cover; background-position:center; background-attachment:fixed; background-repeat:no-repeat; }
-  .card { width:min(92vw, 520px); text-align:center; padding:28px 20px 30px; background:rgba(13,17,21,.62); border-radius:20px; backdrop-filter: blur(3px); }
+  body { margin:0; font-family: system-ui, Arial, sans-serif; background:#101418; color:#f2f2f2; display:flex; min-height:100vh; align-items:center; justify-content:center; }
+  .card { width:min(92vw, 520px); text-align:center; padding:24px 20px 30px; }
   h1 { font-size:2rem; margin:0 0 6px; }
-  .sub { color:#c3d2e0; margin:0 0 24px; }
-  #meal { font-size:1.6rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:rgba(26,33,41,.88); border:2px solid #2e7d32; border-radius:14px; padding:18px 14px; }
-  #snack { margin-top:14px; color:#dde7f0; min-height:1.4em; }
+  .sub { color:#9fb3c8; margin:0 0 20px; }
+  #dish { width:100%; height:230px; object-fit:cover; border-radius:14px; border:2px solid #2e7d32; display:block; margin-bottom:18px; background:#1a2129; }
+  #meal { font-size:1.6rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:#1a2129; border:2px solid #2e7d32; border-radius:14px; padding:18px 14px; }
+  #snack { margin-top:14px; color:#c9d6e3; min-height:1.4em; }
   button { margin-top:24px; font-size:1.25rem; font-weight:700; padding:14px 30px; border:none; border-radius:999px; background:#2e7d32; color:#fff; cursor:pointer; }
   button:active { transform:scale(.97); }
-  .foot { margin-top:26px; color:#a9bccf; font-size:.9rem; }
-  .credit { margin-top:8px; color:#6e8093; font-size:.72rem; }
+  .foot { margin-top:26px; color:#7d8fa3; font-size:.9rem; }
+  .credit { margin-top:8px; color:#5d6f82; font-size:.72rem; }
 </style>
 </head>
 <body>
   <div class="card">
     <h1>🥩 Keto Spinner</h1>
     <p class="sub">No thinking. Just spin, then eat.</p>
+    <img id="dish" src="images/steak.jpg" alt="A keto meal">
     <div id="meal">Tap the button when your window opens 👇</div>
     <div id="snack"></div>
     <button onclick="spin()">What am I eating?</button>
@@ -30,10 +32,6 @@
 <script>
   const bgs = ['images/steak.jpg', 'images/salmon.jpg', 'images/burger.jpg', 'images/breakfast.jpg'];
   bgs.forEach(src => { const i = new Image(); i.src = src; });
-  function setBg(src) {
-    document.body.style.backgroundImage = 'linear-gradient(rgba(8,10,12,.66), rgba(8,10,12,.74)), url(' + src + ')';
-  }
-  setBg('images/steak.jpg');
   const meals = [
     "Ribeye steak + buttered green beans",
     "Grilled salmon + asparagus",
@@ -63,10 +61,11 @@
     let n = 0;
     const t = setInterval(() => {
       mealEl.textContent = pick(meals);
+      document.getElementById('dish').src = pick(bgs);
       if (++n > 12) {
         clearInterval(t);
         mealEl.textContent = pick(meals);
-        setBg(pick(bgs));
+        document.getElementById('dish').src = pick(bgs);
         snackEl.textContent = 'Still hungry later? ' + pick(snacks) + '.';
       }
     }, 70);
