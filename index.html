@@ -9,8 +9,8 @@
   .card { width:min(92vw, 520px); text-align:center; padding:24px 20px 30px; }
   h1 { font-size:2rem; margin:0 0 6px; }
   .sub { color:#5a6b7a; margin:0 0 20px; }
-  #dish { width:100%; height:230px; object-fit:cover; border-radius:14px; border:2px solid #2e7d32; display:block; margin-bottom:18px; background:#eef2ee; }
-  #meal { font-size:1.6rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:#f4f7f4; border:2px solid #2e7d32; border-radius:14px; padding:18px 14px; }
+  #dish { width:100%; height:260px; object-fit:cover; border-radius:14px; border:2px solid #2e7d32; display:block; margin-bottom:18px; background:#eef2ee; }
+  #meal { font-size:1.5rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:#f4f7f4; border:2px solid #2e7d32; border-radius:14px; padding:16px 14px; }
   #snack { margin-top:14px; color:#3c4c5c; min-height:1.4em; }
   button { margin-top:24px; font-size:1.25rem; font-weight:700; padding:14px 30px; border:none; border-radius:999px; background:#2e7d32; color:#fff; cursor:pointer; }
   button:active { transform:scale(.97); }
@@ -21,51 +21,58 @@
 <body>
   <div class="card">
     <h1>🥩 Keto Spinner</h1>
-    <p class="sub">Zero carbs. No thinking. Just spin, then eat.</p>
-    <img id="dish" src="images/steak.jpg" alt="My plate">
+    <p class="sub">No thinking. Just spin, then eat.</p>
+    <img id="dish" src="images/ribeye.jpg" alt="My plate">
     <div id="meal">Tap the button when your window opens 👇</div>
     <div id="snack"></div>
     <button onclick="spin()">What am I eating?</button>
-    <p class="foot">Eating window: 2 PM – 8 PM · Zero carb · Built by Ty206</p>
+    <p class="foot">Eating window: 2 PM – 8 PM · Built by Ty206</p>
     <p class="credit">Photos: my own plates 📸</p>
   </div>
 <script>
-  const bgs = ['images/steak.jpg', 'images/lamb.jpg'];
-  bgs.forEach(src => { const i = new Image(); i.src = src; });
-  const meals = [
-    "Ribeye steak with butter",
-    "Grilled salmon with butter",
-    "Bunless bacon cheeseburger",
-    "Unbreaded chicken wings in butter & hot sauce",
-    "Shrimp in garlic butter",
-    "Pork chops with butter",
-    "Steak & eggs",
-    "Rotisserie chicken",
-    "Tuna salad with mayo",
-    "Salmon patties with aioli",
-    "Crispy skin chicken thighs",
-    "Meatballs with melted mozzarella",
-    "Blackened catfish with butter",
-    "Lamb chops",
-    "Sausage & cheese egg scramble"
+  const pairs = [
+    { n: "Ribeye steak + broccoli & cauliflower", i: "images/ribeye.jpg" },
+    { n: "Sliced chicken breast + greens & mushrooms", i: "images/chicken-sliced.jpg" },
+    { n: "Shrimp + greens & mushrooms", i: "images/shrimp-greens.jpg" },
+    { n: "Boiled eggs + kale salad", i: "images/eggs-kale.jpg" },
+    { n: "Salmon + spinach & avocado", i: "images/salmon-avocado.jpg" },
+    { n: "Meatballs + broccoli & cauliflower", i: "images/meatballs-veg.jpg" },
+    { n: "Pork chops + green beans & mushrooms", i: "images/porkchops.jpg" },
+    { n: "Chicken breast + cauliflower rice", i: "images/chicken-caulirice.jpg" },
+    { n: "Cobb salad — egg, bacon & avocado", i: "images/cobb.jpg" },
+    { n: "Bunless cheeseburgers", i: "images/burgers.jpg" },
+    { n: "Grilled pork chop + spinach & mushrooms", i: "images/porkchop-spinach.jpg" },
+    { n: "Grilled chicken + broccoli & cauliflower rice", i: "images/chicken-broccoli.jpg" },
+    { n: "Meatballs in marinara + broccoli", i: "images/meatballs-marinara.jpg" },
+    { n: "Chicken + spaghetti squash", i: "images/chicken-squash.jpg" },
+    { n: "Garlic shrimp + spinach", i: "images/shrimp-spinach.jpg" },
+    { n: "Stuffed peppers + green beans", i: "images/peppers.jpg" },
+    { n: "Roasted chicken leg + kale & avocado", i: "images/chicken-leg.jpg" },
+    { n: "Mixed grill skewers", i: "images/skewers.jpg" },
+    { n: "Grilled chicken + eggs & zucchini noodles", i: "images/chicken-eggs.jpg" },
+    { n: "Taco beef + avocado & broccoli", i: "images/taco.jpg" },
+    { n: "Sliced steak + greens & cauliflower mash", i: "images/steak.jpg" },
+    { n: "Lamb chops + asparagus", i: "images/lamb.jpg" }
   ];
+  pairs.forEach(p => { const im = new Image(); im.src = p.i; });
   const snacks = [
     "pork rinds", "cheese crisps", "boiled eggs",
     "sardines", "pepperoni slices", "bacon strips"
   ];
   const pick = a => a[Math.floor(Math.random() * a.length)];
+  function show(p) {
+    document.getElementById('meal').textContent = p.n;
+    document.getElementById('dish').src = p.i;
+  }
   function spin() {
-    const mealEl = document.getElementById('meal');
     const snackEl = document.getElementById('snack');
     snackEl.textContent = '';
     let n = 0;
     const t = setInterval(() => {
-      mealEl.textContent = pick(meals);
-      document.getElementById('dish').src = pick(bgs);
+      show(pick(pairs));
       if (++n > 12) {
         clearInterval(t);
-        mealEl.textContent = pick(meals);
-        document.getElementById('dish').src = pick(bgs);
+        show(pick(pairs));
         snackEl.textContent = 'Still hungry later? ' + pick(snacks) + '.';
       }
     }, 70);
