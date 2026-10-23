@@ -19,33 +19,33 @@
 <body>
   <div class="card">
     <h1>🥩 Keto Spinner</h1>
-    <p class="sub">No thinking. Just spin, then eat.</p>
+    <p class="sub">Zero carbs. No thinking. Just spin, then eat.</p>
     <div id="meal">Tap the button when your window opens 👇</div>
     <div id="snack"></div>
     <button onclick="spin()">What am I eating?</button>
-    <p class="foot">Eating window: 2 PM – 8 PM · No to very low carb · Built by Ty206</p>
+    <p class="foot">Eating window: 2 PM – 8 PM · Zero carb · Built by Ty206</p>
   </div>
 <script>
   const meals = [
-    "Ribeye steak + buttered green beans",
-    "Grilled salmon + asparagus",
-    "Bunless bacon cheeseburger + side salad",
-    "Unbreaded chicken wings + celery & ranch",
-    "Shrimp scampi over zucchini noodles",
-    "Pork chops + cauliflower mash",
+    "Ribeye steak with butter",
+    "Grilled salmon with butter",
+    "Bunless bacon cheeseburger",
+    "Unbreaded chicken wings in butter & hot sauce",
+    "Shrimp in garlic butter",
+    "Pork chops with butter",
     "Steak & eggs",
-    "Rotisserie chicken + cheesy broccoli",
-    "Tuna salad lettuce wraps",
-    "Salmon patties + garlic aioli slaw",
-    "Chicken Caesar — no croutons, extra parmesan",
-    "Meatballs in marinara + melted mozzarella",
-    "Blackened catfish + collard greens",
-    "Lamb chops + roasted radishes",
-    "Sausage, pepper & cheese egg scramble"
+    "Rotisserie chicken",
+    "Tuna salad with mayo",
+    "Salmon patties with aioli",
+    "Crispy skin chicken thighs",
+    "Meatballs with melted mozzarella",
+    "Blackened catfish with butter",
+    "Lamb chops",
+    "Sausage & cheese egg scramble"
   ];
   const snacks = [
-    "pork rinds", "cheese crisps", "two boiled eggs",
-    "a handful of macadamia nuts", "pickles", "sugar-free beef jerky"
+    "pork rinds", "cheese crisps", "boiled eggs",
+    "sardines", "pepperoni slices", "bacon strips"
   ];
   const pick = a => a[Math.floor(Math.random() * a.length)];
   function spin() {
