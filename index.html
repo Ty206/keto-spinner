@@ -8,24 +8,30 @@
   body { margin:0; font-family: system-ui, Arial, sans-serif; background:#ffffff; color:#14202b; display:flex; min-height:100vh; align-items:center; justify-content:center; }
   .card { width:min(92vw, 520px); text-align:center; padding:24px 20px 30px; }
   h1 { font-size:2rem; margin:0 0 6px; }
-  .sub { color:#5a6b7a; margin:0 0 24px; }
+  .sub { color:#5a6b7a; margin:0 0 20px; }
+  #dish { width:100%; height:230px; object-fit:cover; border-radius:14px; border:2px solid #2e7d32; display:block; margin-bottom:18px; background:#eef2ee; }
   #meal { font-size:1.6rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:#f4f7f4; border:2px solid #2e7d32; border-radius:14px; padding:18px 14px; }
   #snack { margin-top:14px; color:#3c4c5c; min-height:1.4em; }
   button { margin-top:24px; font-size:1.25rem; font-weight:700; padding:14px 30px; border:none; border-radius:999px; background:#2e7d32; color:#fff; cursor:pointer; }
   button:active { transform:scale(.97); }
   .foot { margin-top:26px; color:#7d8fa3; font-size:.9rem; }
+  .credit { margin-top:8px; color:#93a5b5; font-size:.75rem; }
 </style>
 </head>
 <body>
   <div class="card">
     <h1>🥩 Keto Spinner</h1>
     <p class="sub">Zero carbs. No thinking. Just spin, then eat.</p>
+    <img id="dish" src="images/steak.jpg" alt="My plate">
     <div id="meal">Tap the button when your window opens 👇</div>
     <div id="snack"></div>
     <button onclick="spin()">What am I eating?</button>
     <p class="foot">Eating window: 2 PM – 8 PM · Zero carb · Built by Ty206</p>
+    <p class="credit">Photos: my own plates 📸</p>
   </div>
 <script>
+  const bgs = ['images/steak.jpg', 'images/lamb.jpg'];
+  bgs.forEach(src => { const i = new Image(); i.src = src; });
   const meals = [
     "Ribeye steak with butter",
     "Grilled salmon with butter",
@@ -55,9 +61,11 @@
     let n = 0;
     const t = setInterval(() => {
       mealEl.textContent = pick(meals);
+      document.getElementById('dish').src = pick(bgs);
       if (++n > 12) {
         clearInterval(t);
         mealEl.textContent = pick(meals);
+        document.getElementById('dish').src = pick(bgs);
         snackEl.textContent = 'Still hungry later? ' + pick(snacks) + '.';
       }
     }, 70);
