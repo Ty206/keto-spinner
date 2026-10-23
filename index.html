@@ -5,78 +5,68 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tirrel's Keto Spinner — What am I eating?</title>
 <style>
-  body { margin:0; font-family: system-ui, Arial, sans-serif; background:#000000; color:#f2f2f2; display:flex; min-height:100vh; align-items:center; justify-content:center; }
-  .card { width:min(92vw, 520px); text-align:center; padding:24px 20px 30px; }
-  h1 { font-size:2rem; margin:0 0 6px; }
-  .sub { color:#9fb3c8; margin:0 0 20px; }
-  #dish { width:100%; height:260px; object-fit:cover; border-radius:14px; border:2px solid #2e7d32; display:block; margin-bottom:18px; background:#1a2129; }
-  #meal { font-size:1.5rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:#1a2129; color:#f2f2f2; border:2px solid #2e7d32; border-radius:14px; padding:16px 14px; }
-  #snack { margin-top:14px; color:#c9d6e3; min-height:1.4em; }
-  button { margin-top:24px; font-size:1.25rem; font-weight:700; padding:14px 30px; border:none; border-radius:999px; background:#2e7d32; color:#fff; cursor:pointer; }
-  button:active { transform:scale(.97); }
-  .foot { margin-top:26px; color:#7d8fa3; font-size:.9rem; }
-  .credit { margin-top:8px; color:#5d6f82; font-size:.75rem; }
+body{font-family:Arial,sans-serif;text-align:center;padding:24px 16px;background:#000000;color:#f2f2f2}
+h1{font-size:2.1rem;margin-bottom:4px}
+.sub{color:#9fb3c8;margin-top:0}
+#dish{display:block;width:min(92vw,430px);height:min(92vw,430px);object-fit:cover;margin:18px auto;border-radius:16px;border:3px solid #2e7d32;background:#1a2129}
+#meal{font-size:1.55rem;font-weight:bold;background:#1a2129;border:2px solid #2e7d32;border-radius:12px;padding:18px 12px;max-width:430px;margin:0 auto;min-height:56px}
+#ing{max-width:430px;margin:12px auto 0;color:#9fb3c8;font-size:1.02rem;line-height:1.5;min-height:24px}
+#snack{margin-top:12px;color:#c9d6e3;font-size:1.05rem;min-height:24px}
+button{margin-top:22px;font-size:1.25rem;padding:16px 34px;border:none;border-radius:999px;background:#2e7d32;color:#fff;font-weight:bold;cursor:pointer}
+button:active{transform:scale(.97)}
+.foot{margin-top:30px;color:#7d8fa3;font-size:.9rem;line-height:1.5}
+.credit{color:#5d6f82;font-size:.78rem;margin-top:6px}
 </style>
 </head>
 <body>
-  <div class="card">
-    <h1>🥩 Tirrel's Keto Spinner</h1>
-    <p class="sub">No thinking. Just spin, then eat.</p>
-    <img id="dish" src="images/ribeye.jpg" alt="My plate">
-    <div id="meal">Tap the button when your window opens 👇</div>
-    <div id="snack"></div>
-    <button onclick="spin()">What am I eating?</button>
-    <p class="foot">Eating window: 2 PM – 8 PM · Built by Ty206</p>
-    <p class="credit">Photos: my own plates 📸</p>
-  </div>
+<h1>Tirrel's Keto Spinner 🥩</h1>
+<p class="sub">No thinking. Just spin, then eat.</p>
+<img id="dish" src="images/ribeye.jpg" alt="Tonight's plate">
+<div id="meal">Tap the button when your window opens 👇</div>
+<div id="ing"></div>
+<div id="snack"></div>
+<button onclick="spin()">What am I eating? 🎰</button>
+<p class="foot">Eating window: 2 PM – 8 PM · Built by Ty206</p>
+<p class="credit">Photos: my own plates 📸</p>
 <script>
-  const pairs = [
-    { n: "Ribeye steak + broccoli & cauliflower", i: "images/ribeye.jpg" },
-    { n: "Sliced chicken breast + greens & mushrooms", i: "images/chicken-sliced.jpg" },
-    { n: "Shrimp + greens & mushrooms", i: "images/shrimp-greens.jpg" },
-    { n: "Boiled eggs + kale salad", i: "images/eggs-kale.jpg" },
-    { n: "Salmon + spinach & avocado", i: "images/salmon-avocado.jpg" },
-    { n: "Meatballs + broccoli & cauliflower", i: "images/meatballs-veg.jpg" },
-    { n: "Pork chops + green beans & mushrooms", i: "images/porkchops.jpg" },
-    { n: "Chicken breast + cauliflower rice", i: "images/chicken-caulirice.jpg" },
-    { n: "Cobb salad — egg, bacon & avocado", i: "images/cobb.jpg" },
-    { n: "Bunless cheeseburgers", i: "images/burgers.jpg" },
-    { n: "Grilled pork chop + spinach & mushrooms", i: "images/porkchop-spinach.jpg" },
-    { n: "Grilled chicken + broccoli & cauliflower rice", i: "images/chicken-broccoli.jpg" },
-    { n: "Meatballs in marinara + broccoli", i: "images/meatballs-marinara.jpg" },
-    { n: "Chicken + spaghetti squash", i: "images/chicken-squash.jpg" },
-    { n: "Garlic shrimp + spinach", i: "images/shrimp-spinach.jpg" },
-    { n: "Stuffed peppers + green beans", i: "images/peppers.jpg" },
-    { n: "Roasted chicken leg + kale & avocado", i: "images/chicken-leg.jpg" },
-    { n: "Mixed grill skewers", i: "images/skewers.jpg" },
-    { n: "Grilled chicken + eggs & zucchini noodles", i: "images/chicken-eggs.jpg" },
-    { n: "Taco beef + avocado & broccoli", i: "images/taco.jpg" },
-    { n: "Sliced steak + greens & cauliflower mash", i: "images/steak.jpg" },
-    { n: "Lamb chops + asparagus", i: "images/lamb.jpg" }
-  ];
-  pairs.forEach(p => { const im = new Image(); im.src = p.i; });
-  const snacks = [
-    "pork rinds", "cheese crisps", "boiled eggs",
-    "sardines", "pepperoni slices", "bacon strips"
-  ];
-  const pick = a => a[Math.floor(Math.random() * a.length)];
-  function show(p) {
-    document.getElementById('meal').textContent = p.n;
-    document.getElementById('dish').src = p.i;
-  }
-  function spin() {
-    const snackEl = document.getElementById('snack');
-    snackEl.textContent = '';
-    let n = 0;
-    const t = setInterval(() => {
-      show(pick(pairs));
-      if (++n > 12) {
-        clearInterval(t);
-        show(pick(pairs));
-        snackEl.textContent = 'Still hungry later? ' + pick(snacks) + '.';
-      }
-    }, 70);
-  }
+var pairs=[
+{name:"Ribeye steak + broccoli & cauliflower",img:"images/ribeye.jpg",ing:"Ribeye steak, broccoli, cauliflower, butter, garlic, salt, black pepper"},
+{name:"Sliced chicken breast + greens & mushrooms",img:"images/chicken-sliced.jpg",ing:"Chicken breast, mixed greens, mushrooms, olive oil, garlic, salt, pepper"},
+{name:"Shrimp + greens & mushrooms",img:"images/shrimp-greens.jpg",ing:"Shrimp, mixed greens, mushrooms, butter, garlic, lemon, salt, pepper"},
+{name:"Boiled eggs + kale salad",img:"images/eggs-kale.jpg",ing:"Eggs, kale, olive oil, lemon, garlic, salt, black pepper"},
+{name:"Salmon + spinach & avocado",img:"images/salmon-avocado.jpg",ing:"Salmon, spinach, avocado, olive oil, lemon, garlic, salt, pepper"},
+{name:"Meatballs + broccoli & cauliflower",img:"images/meatballs-veg.jpg",ing:"Ground beef, parmesan, egg, broccoli, cauliflower, butter, garlic, Italian seasoning"},
+{name:"Pork chops + green beans & mushrooms",img:"images/porkchops.jpg",ing:"Pork chops, green beans, mushrooms, butter, garlic, salt, pepper"},
+{name:"Chicken breast + cauliflower rice",img:"images/chicken-caulirice.jpg",ing:"Chicken breast, cauliflower rice, butter, garlic, parsley, salt, pepper"},
+{name:"Cobb salad — egg, bacon & avocado",img:"images/cobb.jpg",ing:"Chicken, bacon, hard-boiled egg, avocado, tomato, mixed greens, blue cheese"},
+{name:"Bunless cheeseburgers",img:"images/burgers.jpg",ing:"Ground beef, cheddar, lettuce, tomato, red onion, pickles"},
+{name:"Grilled pork chop + spinach & mushrooms",img:"images/porkchop-spinach.jpg",ing:"Pork chop, spinach, mushrooms, butter, garlic, salt, pepper"},
+{name:"Grilled chicken + broccoli & cauliflower rice",img:"images/chicken-broccoli.jpg",ing:"Chicken breast, broccoli, cauliflower rice, butter, garlic, salt, pepper"},
+{name:"Meatballs in marinara + broccoli",img:"images/meatballs-marinara.jpg",ing:"Ground beef, parmesan, egg, sugar-free marinara, broccoli, garlic, Italian seasoning"},
+{name:"Chicken + spaghetti squash",img:"images/chicken-squash.jpg",ing:"Chicken breast, spaghetti squash, butter, parmesan, garlic, parsley, salt, pepper"},
+{name:"Garlic shrimp + spinach",img:"images/shrimp-spinach.jpg",ing:"Shrimp, spinach, butter, garlic, lemon, red pepper flakes, salt"},
+{name:"Stuffed peppers + green beans",img:"images/peppers.jpg",ing:"Bell peppers, ground beef, cauliflower rice, cheddar, green beans, garlic, salt, pepper"},
+{name:"Roasted chicken leg + kale & avocado",img:"images/chicken-leg.jpg",ing:"Chicken leg, kale, avocado, olive oil, garlic, salt, pepper"},
+{name:"Mixed grill skewers",img:"images/skewers.jpg",ing:"Beef, chicken, bell peppers, red onion, zucchini, olive oil, garlic, salt, pepper"},
+{name:"Grilled chicken + eggs & zucchini noodles",img:"images/chicken-eggs.jpg",ing:"Chicken breast, eggs, zucchini noodles, butter, garlic, parmesan, salt, pepper"},
+{name:"Taco beef + avocado & broccoli",img:"images/taco.jpg",ing:"Ground beef, taco seasoning, cheddar, avocado, broccoli, sour cream"},
+{name:"Sliced steak + greens & cauliflower mash",img:"images/steak.jpg",ing:"Steak, mixed greens, cauliflower, butter, garlic, salt, pepper"},
+{name:"Lamb chops + asparagus",img:"images/lamb.jpg",ing:"Lamb chops, asparagus, butter, garlic, rosemary, salt, pepper"}
+];
+var snacks=["pork rinds","cheese crisps","boiled eggs","sardines","pepperoni slices","bacon strips"];
+var spinning=false;
+function show(p){document.getElementById('dish').src=p.img;document.getElementById('meal').textContent=p.name;document.getElementById('ing').textContent=p.ing?('🧾 Ingredients: '+p.ing):'';}
+function spin(){
+if(spinning)return; spinning=true;
+document.getElementById('snack').textContent='';
+var ticks=0;
+var iv=setInterval(function(){
+show(pairs[Math.floor(Math.random()*pairs.length)]);
+ticks++;
+if(ticks>14){clearInterval(iv);spinning=false;document.getElementById('snack').textContent='Still hungry later? '+snacks[Math.floor(Math.random()*snacks.length)]+'.';}
+},90);
+}
+show(pairs[0]);
 </script>
 </body>
 </html>
