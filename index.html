@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keto Spinner — What am I eating?</title>
+<style>
+  body { margin:0; font-family: system-ui, Arial, sans-serif; background:#101418; color:#f2f2f2; display:flex; min-height:100vh; align-items:center; justify-content:center; }
+  .card { width:min(92vw, 520px); text-align:center; padding:28px 20px 36px; }
+  h1 { font-size:2rem; margin:0 0 6px; }
+  .sub { color:#9fb3c8; margin:0 0 24px; }
+  #meal { font-size:1.6rem; font-weight:700; min-height:3.2em; display:flex; align-items:center; justify-content:center; background:#1a2129; border:2px solid #2e7d32; border-radius:14px; padding:18px 14px; }
+  #snack { margin-top:14px; color:#c9d6e3; min-height:1.4em; }
+  button { margin-top:24px; font-size:1.25rem; font-weight:700; padding:14px 30px; border:none; border-radius:999px; background:#2e7d32; color:#fff; cursor:pointer; }
+  button:active { transform:scale(.97); }
+  .foot { margin-top:26px; color:#7d8fa3; font-size:.9rem; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>🥩 Keto Spinner</h1>
+    <p class="sub">No thinking. Just spin, then eat.</p>
+    <div id="meal">Tap the button when your window opens 👇</div>
+    <div id="snack"></div>
+    <button onclick="spin()">What am I eating?</button>
+    <p class="foot">Eating window: 2 PM – 8 PM · No to very low carb · Built by Ty206</p>
+  </div>
+<script>
+  const meals = [
+    "Ribeye steak + buttered green beans",
+    "Grilled salmon + asparagus",
+    "Bunless bacon cheeseburger + side salad",
+    "Unbreaded chicken wings + celery & ranch",
+    "Shrimp scampi over zucchini noodles",
+    "Pork chops + cauliflower mash",
+    "Steak & eggs",
+    "Rotisserie chicken + cheesy broccoli",
+    "Tuna salad lettuce wraps",
+    "Salmon patties + garlic aioli slaw",
+    "Chicken Caesar — no croutons, extra parmesan",
+    "Meatballs in marinara + melted mozzarella",
+    "Blackened catfish + collard greens",
+    "Lamb chops + roasted radishes",
+    "Sausage, pepper & cheese egg scramble"
+  ];
+  const snacks = [
+    "pork rinds", "cheese crisps", "two boiled eggs",
+    "a handful of macadamia nuts", "pickles", "sugar-free beef jerky"
+  ];
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  function spin() {
+    const mealEl = document.getElementById('meal');
+    const snackEl = document.getElementById('snack');
+    snackEl.textContent = '';
+    let n = 0;
+    const t = setInterval(() => {
+      mealEl.textContent = pick(meals);
+      if (++n > 12) {
+        clearInterval(t);
+        mealEl.textContent = pick(meals);
+        snackEl.textContent = 'Still hungry later? ' + pick(snacks) + '.';
+      }
+    }, 70);
+  }
+</script>
+</body>
+</html>
