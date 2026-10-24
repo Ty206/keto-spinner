@@ -6,23 +6,25 @@
 <title>Tirrel's Keto Spinner — What am I eating?</title>
 <style>
 body{font-family:Arial,sans-serif;text-align:center;padding:24px 16px;background:#000000;color:#f2f2f2}
-h1{font-size:2.1rem;margin-bottom:4px}
+h1{font-size:2.1rem;margin-bottom:4px;padding:0 52px}
 .sub{color:#9fb3c8;margin-top:0}
-.wrap{display:flex;gap:22px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:6px}
-main{width:min(92vw,430px)}
-#dish{display:block;width:100%;height:min(92vw,430px);object-fit:cover;border-radius:16px;border:3px solid #2e7d32;background:#1a2129}
-#meal{font-size:1.55rem;font-weight:bold;background:#1a2129;border:2px solid #2e7d32;border-radius:12px;padding:18px 12px;margin-top:18px;min-height:56px}
-#ing{margin:12px auto 0;color:#9fb3c8;font-size:1.02rem;line-height:1.5;min-height:24px}
+#dish{display:block;width:min(92vw,430px);height:min(92vw,430px);object-fit:cover;margin:18px auto;border-radius:16px;border:3px solid #2e7d32;background:#1a2129}
+#meal{font-size:1.55rem;font-weight:bold;background:#1a2129;border:2px solid #2e7d32;border-radius:12px;padding:18px 12px;max-width:430px;margin:0 auto;min-height:56px}
+#ing{max-width:430px;margin:12px auto 0;color:#9fb3c8;font-size:1.02rem;line-height:1.5;min-height:24px}
 #snack{margin-top:12px;color:#c9d6e3;font-size:1.05rem;min-height:24px}
-button{margin-top:22px;font-size:1.25rem;padding:16px 34px;border:none;border-radius:999px;background:#2e7d32;color:#fff;font-weight:bold;cursor:pointer;animation:pulse 1.6s ease-out infinite}
-button:active{transform:scale(.97)}
+#spinBtn{margin-top:22px;font-size:1.25rem;padding:16px 34px;border:none;border-radius:999px;background:#2e7d32;color:#fff;font-weight:bold;cursor:pointer;animation:pulse 1.6s ease-out infinite}
+#spinBtn:active{transform:scale(.97)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,193,7,.6)}70%{box-shadow:0 0 0 22px rgba(255,193,7,0)}100%{box-shadow:0 0 0 0 rgba(255,193,7,0)}}
-@media (prefers-reduced-motion: reduce){button{animation:none}}
-.browse{display:block;margin-top:16px;color:#9fb3c8;font-size:.98rem}
-aside{width:min(92vw,320px);background:#101418;border:2px solid #2e7d32;border-radius:12px;padding:14px 16px;text-align:left}
-aside h2{font-size:1.15rem;margin:2px 0 8px;text-align:center}
+@media (prefers-reduced-motion: reduce){#spinBtn{animation:none}}
+#burger{position:fixed;top:14px;left:14px;z-index:30;background:#1a2129;color:#ffc107;border:2px solid #2e7d32;border-radius:10px;font-size:1.35rem;line-height:1;padding:9px 13px;cursor:pointer}
+#shade{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:35;display:none}
+#shade.on{display:block}
+#drawer{position:fixed;top:0;left:0;height:100%;width:min(85vw,300px);background:#101418;border-right:2px solid #2e7d32;z-index:40;transform:translateX(-105%);transition:transform .3s ease;padding:16px;box-sizing:border-box;overflow-y:auto;text-align:left}
+#drawer.open{transform:translateX(0)}
+#drawer h2{font-size:1.12rem;margin:2px 0 10px;text-align:center}
+#closeMenu{float:right;cursor:pointer;font-size:1.25rem;color:#9fb3c8;padding:2px 6px}
 #menu{list-style:none;margin:0;padding:0}
-#menu li{padding:10px 8px;border-bottom:1px solid #26313c;cursor:pointer;font-size:.98rem;line-height:1.35}
+#menu li{padding:11px 8px;border-bottom:1px solid #26313c;cursor:pointer;font-size:.98rem;line-height:1.35}
 #menu li:last-child{border-bottom:none}
 #menu li:hover,#menu li:active{background:#1a2129}
 .foot{margin-top:30px;color:#7d8fa3;font-size:.9rem;line-height:1.5}
@@ -30,22 +32,20 @@ aside h2{font-size:1.15rem;margin:2px 0 8px;text-align:center}
 </style>
 </head>
 <body>
+<button id="burger" aria-label="Open menu">☰</button>
+<div id="shade"></div>
+<nav id="drawer">
+<span id="closeMenu" aria-label="Close menu">✕</span>
+<h2>🍽️ All 22 meals — tap one</h2>
+<ul id="menu"></ul>
+</nav>
 <h1>Tirrel's Keto Spinner 🥩</h1>
 <p class="sub">No thinking. Just spin, then eat.</p>
-<div class="wrap">
-<main>
 <img id="dish" src="images/ribeye.jpg" alt="Tonight's plate">
 <div id="meal">Tap the button when your window opens 👇</div>
 <div id="ing"></div>
 <div id="snack"></div>
-<button onclick="spin()">What am I eating? 🎰</button>
-<a class="browse" href="#menuTitle">or browse all 22 meals ↓</a>
-</main>
-<aside>
-<h2 id="menuTitle">🍽️ All 22 meals — tap one</h2>
-<ul id="menu"></ul>
-</aside>
-</div>
+<button id="spinBtn" onclick="spin()">What am I eating? 🎰</button>
 <p class="foot">Eating window: 2 PM – 8 PM · Built by Ty206</p>
 <p class="credit">Photos: my own plates 📸</p>
 <script>
@@ -78,7 +78,7 @@ var spinning=false;
 function show(p){document.getElementById('dish').src=p.img;document.getElementById('meal').textContent=p.name;document.getElementById('ing').textContent=p.ing?('🧾 Ingredients: '+p.ing):'';}
 function spin(){
 if(spinning)return; spinning=true;
-document.querySelector('button').style.animation='none';
+document.getElementById('spinBtn').style.animation='none';
 document.getElementById('snack').textContent='';
 var ticks=0;
 var iv=setInterval(function(){
@@ -87,11 +87,18 @@ ticks++;
 if(ticks>14){clearInterval(iv);spinning=false;document.getElementById('snack').textContent='Still hungry later? '+snacks[Math.floor(Math.random()*snacks.length)]+'.';}
 },90);
 }
+var drawer=document.getElementById('drawer');
+var shade=document.getElementById('shade');
+function openMenu(){drawer.classList.add('open');shade.classList.add('on');}
+function closeMenuFn(){drawer.classList.remove('open');shade.classList.remove('on');}
+document.getElementById('burger').onclick=openMenu;
+document.getElementById('closeMenu').onclick=closeMenuFn;
+shade.onclick=closeMenuFn;
 var menu=document.getElementById('menu');
 pairs.forEach(function(p){
 var li=document.createElement('li');
 li.textContent=p.name;
-li.onclick=function(){document.querySelector('button').style.animation='none';show(p);window.scrollTo({top:0,behavior:'smooth'});};
+li.onclick=function(){document.getElementById('spinBtn').style.animation='none';show(p);closeMenuFn();window.scrollTo({top:0,behavior:'smooth'});};
 menu.appendChild(li);
 });
 show(pairs[0]);
