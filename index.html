@@ -27,6 +27,11 @@ h1{font-size:2.1rem;margin-bottom:4px;padding:0 52px}
 #menu li{padding:11px 8px;border-bottom:1px solid #26313c;cursor:pointer;font-size:.98rem;line-height:1.35}
 #menu li:last-child{border-bottom:none}
 #menu li:hover,#menu li:active{background:#1a2129}
+#drawer details{border-bottom:1px solid #26313c}
+#drawer summary{padding:11px 8px;cursor:pointer;font-weight:bold;font-size:1rem;list-style-position:inside}
+#drawer summary:hover{background:#1a2129}
+#menuB li,#menuD li{padding:11px 8px 11px 20px;border-bottom:1px solid #26313c;cursor:pointer;font-size:.98rem;line-height:1.35}
+#menuB li:last-child,#menuD li:last-child{border-bottom:none}
 .foot{margin-top:30px;color:#7d8fa3;font-size:.9rem;line-height:1.5}
 .credit{color:#5d6f82;font-size:.78rem;margin-top:6px}
 </style>
@@ -36,8 +41,9 @@ h1{font-size:2.1rem;margin-bottom:4px;padding:0 52px}
 <div id="shade"></div>
 <nav id="drawer">
 <span id="closeMenu" aria-label="Close menu">✕</span>
-<h2>🍽️ All 22 meals — tap one</h2>
-<ul id="menu"></ul>
+<h2>Menu — tap a meal</h2>
+<details open><summary>🍳 Breakfast</summary><ul id="menuB"></ul></details>
+<details><summary>🍽️ Dinners</summary><ul id="menuD"></ul></details>
 </nav>
 <h1>Tirrel's Keto Spinner 🥩</h1>
 <p class="sub">No thinking. Just spin, then eat.</p>
@@ -73,6 +79,18 @@ var pairs=[
 {name:"Sliced steak + greens & cauliflower mash",img:"images/steak.jpg",ing:"Steak, mixed greens, cauliflower, butter, garlic, salt, pepper"},
 {name:"Lamb chops + asparagus",img:"images/lamb.jpg",ing:"Lamb chops, asparagus, butter, garlic, rosemary, salt, pepper"}
 ];
+var breakfasts=[
+{name:"Scrambled eggs + cheddar, bacon & spinach",img:"images/breakfast1.jpg",ing:"3 eggs, cheddar cheese, bacon, sautéed spinach, butter, salt, black pepper"},
+{name:"3-egg omelet + ham, cheddar & peppers",img:"images/breakfast2.jpg",ing:"3 eggs, ham, cheddar cheese, mushrooms, bell peppers, butter, salt, pepper"},
+{name:"Eggs + sausage links & cauliflower hash browns",img:"images/breakfast3.jpg",ing:"2 eggs, sausage links, cauliflower hash browns, shredded cheese, butter, salt, pepper"},
+{name:"Breakfast bowl — eggs, beef & cheddar",img:"images/breakfast4.jpg",ing:"Scrambled eggs, ground beef, cheddar cheese, spinach, sour cream, butter, salt, pepper"},
+{name:"Fried eggs + turkey sausage & zucchini",img:"images/breakfast5.jpg",ing:"3 fried eggs, turkey sausage, sautéed zucchini, mozzarella cheese, butter, salt, pepper"},
+{name:"Egg muffins — bacon, cheddar & spinach",img:"images/breakfast6.jpg",ing:"Eggs, bacon, cheddar cheese, spinach, mushrooms, salt, pepper"},
+{name:"Steak and eggs",img:"images/breakfast7.jpg",ing:"4–6 oz steak, 2 eggs, sautéed spinach or broccoli, butter, garlic, salt, pepper"},
+{name:"Smoked salmon + scrambled eggs",img:"images/breakfast8.jpg",ing:"Smoked salmon, 3 scrambled eggs, cream cheese, cucumber slices, everything-bagel seasoning, butter, salt, pepper"},
+{name:"Chicken breakfast bowl",img:"images/breakfast9.jpg",ing:"Grilled chicken, 2 eggs, cauliflower rice, cheddar cheese, sugar-free hot sauce, butter, salt, pepper"},
+{name:"Keto breakfast plate — eggs, bacon & berries",img:"images/breakfast10.jpg",ing:"3 eggs, bacon, sautéed mushrooms, small serving of berries, butter, salt, pepper"}
+];
 var snacks=["pork rinds","cheese crisps","boiled eggs","sardines","pepperoni slices","bacon strips"];
 var spinning=false;
 function show(p){document.getElementById('dish').src=p.img;document.getElementById('meal').textContent=p.name;document.getElementById('ing').textContent=p.ing?('🧾 Ingredients: '+p.ing):'';}
@@ -81,8 +99,9 @@ if(spinning)return; spinning=true;
 document.getElementById('spinBtn').style.animation='none';
 document.getElementById('snack').textContent='';
 var ticks=0;
+var allMeals=pairs.concat(breakfasts);
 var iv=setInterval(function(){
-show(pairs[Math.floor(Math.random()*pairs.length)]);
+show(allMeals[Math.floor(Math.random()*allMeals.length)]);
 ticks++;
 if(ticks>14){clearInterval(iv);spinning=false;document.getElementById('snack').textContent='Still hungry later? '+snacks[Math.floor(Math.random()*snacks.length)]+'.';}
 },90);
@@ -94,13 +113,16 @@ function closeMenuFn(){drawer.classList.remove('open');shade.classList.remove('o
 document.getElementById('burger').onclick=openMenu;
 document.getElementById('closeMenu').onclick=closeMenuFn;
 shade.onclick=closeMenuFn;
-var menu=document.getElementById('menu');
-pairs.forEach(function(p){
+var menuB=document.getElementById('menuB');
+var menuD=document.getElementById('menuD');
+function addMenuItem(list,p){
 var li=document.createElement('li');
 li.textContent=p.name;
 li.onclick=function(){document.getElementById('spinBtn').style.animation='none';show(p);closeMenuFn();window.scrollTo({top:0,behavior:'smooth'});};
-menu.appendChild(li);
-});
+list.appendChild(li);
+}
+breakfasts.forEach(function(p){addMenuItem(menuB,p);});
+pairs.forEach(function(p){addMenuItem(menuD,p);});
 show(pairs[0]);
 </script>
 </body>
