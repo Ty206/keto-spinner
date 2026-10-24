@@ -8,14 +8,23 @@
 body{font-family:Arial,sans-serif;text-align:center;padding:24px 16px;background:#000000;color:#f2f2f2}
 h1{font-size:2.1rem;margin-bottom:4px}
 .sub{color:#9fb3c8;margin-top:0}
-#dish{display:block;width:min(92vw,430px);height:min(92vw,430px);object-fit:cover;margin:18px auto;border-radius:16px;border:3px solid #2e7d32;background:#1a2129}
-#meal{font-size:1.55rem;font-weight:bold;background:#1a2129;border:2px solid #2e7d32;border-radius:12px;padding:18px 12px;max-width:430px;margin:0 auto;min-height:56px}
-#ing{max-width:430px;margin:12px auto 0;color:#9fb3c8;font-size:1.02rem;line-height:1.5;min-height:24px}
+.wrap{display:flex;gap:22px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:6px}
+main{width:min(92vw,430px)}
+#dish{display:block;width:100%;height:min(92vw,430px);object-fit:cover;border-radius:16px;border:3px solid #2e7d32;background:#1a2129}
+#meal{font-size:1.55rem;font-weight:bold;background:#1a2129;border:2px solid #2e7d32;border-radius:12px;padding:18px 12px;margin-top:18px;min-height:56px}
+#ing{margin:12px auto 0;color:#9fb3c8;font-size:1.02rem;line-height:1.5;min-height:24px}
 #snack{margin-top:12px;color:#c9d6e3;font-size:1.05rem;min-height:24px}
 button{margin-top:22px;font-size:1.25rem;padding:16px 34px;border:none;border-radius:999px;background:#2e7d32;color:#fff;font-weight:bold;cursor:pointer;animation:pulse 1.6s ease-out infinite}
 button:active{transform:scale(.97)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,193,7,.6)}70%{box-shadow:0 0 0 22px rgba(255,193,7,0)}100%{box-shadow:0 0 0 0 rgba(255,193,7,0)}}
 @media (prefers-reduced-motion: reduce){button{animation:none}}
+.browse{display:block;margin-top:16px;color:#9fb3c8;font-size:.98rem}
+aside{width:min(92vw,320px);background:#101418;border:2px solid #2e7d32;border-radius:12px;padding:14px 16px;text-align:left}
+aside h2{font-size:1.15rem;margin:2px 0 8px;text-align:center}
+#menu{list-style:none;margin:0;padding:0}
+#menu li{padding:10px 8px;border-bottom:1px solid #26313c;cursor:pointer;font-size:.98rem;line-height:1.35}
+#menu li:last-child{border-bottom:none}
+#menu li:hover,#menu li:active{background:#1a2129}
 .foot{margin-top:30px;color:#7d8fa3;font-size:.9rem;line-height:1.5}
 .credit{color:#5d6f82;font-size:.78rem;margin-top:6px}
 </style>
@@ -23,11 +32,20 @@ button:active{transform:scale(.97)}
 <body>
 <h1>Tirrel's Keto Spinner 🥩</h1>
 <p class="sub">No thinking. Just spin, then eat.</p>
+<div class="wrap">
+<main>
 <img id="dish" src="images/ribeye.jpg" alt="Tonight's plate">
 <div id="meal">Tap the button when your window opens 👇</div>
 <div id="ing"></div>
 <div id="snack"></div>
 <button onclick="spin()">What am I eating? 🎰</button>
+<a class="browse" href="#menuTitle">or browse all 22 meals ↓</a>
+</main>
+<aside>
+<h2 id="menuTitle">🍽️ All 22 meals — tap one</h2>
+<ul id="menu"></ul>
+</aside>
+</div>
 <p class="foot">Eating window: 2 PM – 8 PM · Built by Ty206</p>
 <p class="credit">Photos: my own plates 📸</p>
 <script>
@@ -69,6 +87,13 @@ ticks++;
 if(ticks>14){clearInterval(iv);spinning=false;document.getElementById('snack').textContent='Still hungry later? '+snacks[Math.floor(Math.random()*snacks.length)]+'.';}
 },90);
 }
+var menu=document.getElementById('menu');
+pairs.forEach(function(p){
+var li=document.createElement('li');
+li.textContent=p.name;
+li.onclick=function(){document.querySelector('button').style.animation='none';show(p);window.scrollTo({top:0,behavior:'smooth'});};
+menu.appendChild(li);
+});
 show(pairs[0]);
 </script>
 </body>
